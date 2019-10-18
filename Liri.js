@@ -13,7 +13,7 @@ var fs = require("fs")
 // movie-this
 // do-what-it-says
 
-// Artist API for an artist and render information
+// Concert this for bands in town is seen below.
 var concertThis = function(artist){
     var region = ""
     var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
@@ -22,7 +22,7 @@ var concertThis = function(artist){
     
     axios.get(queryUrl).then(function(response){
         var concertInfo = response.data
-        // If the request is successful
+        //if working request 
         if (response.status === 200) {
             
         
@@ -31,12 +31,11 @@ var concertThis = function(artist){
             for (var i=0; i < concertInfo.length; i++) {
                 
                 region = concertInfo[i].venue.region
-                 //handle Canadian venues
                 if (region === "") {
                     region = concertInfo[i].venue.country
                 }
 
-                // Need to return Name of venue, Venue location, Date of event (MM/DD/YYYY)
+                // Console loging concert information for testing
                 console.log("Venue: " + concertInfo[i].venue.name);
                 console.log("Location: " + concertInfo[i].venue.city + ", " + region);
                 console.log("Date: " + concertInfo[i].datetime);
