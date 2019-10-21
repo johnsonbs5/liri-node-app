@@ -14,7 +14,7 @@ var fs = require("fs")
 // do-what-it-says
 
 // Concert this for bands in town is seen below.
-var concertThis = function(artist){
+var concert = function(artist){
     var region = ""
     var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
     
@@ -27,15 +27,12 @@ var concertThis = function(artist){
             
         
             console.log(artist + " concert information:")
-
+            //below is for loop
             for (var i=0; i < concertInfo.length; i++) {
                 
                 region = concertInfo[i].venue.region
-                if (region === "") {
-                    region = concertInfo[i].venue.country
-                }
+                
 
-                // Console loging concert information for testing
                 console.log("Venue: " + concertInfo[i].venue.name);
                 console.log("Location: " + concertInfo[i].venue.city + ", " + region);
                 console.log("Date: " + concertInfo[i].datetime);
@@ -45,14 +42,14 @@ var concertThis = function(artist){
     })
 }
 
-// This will take a song, search spotify and return information
+// search spotify and return information
 var spotifyThisSong = function(song){
-    // Default should be "The Sign" by Ace of Base
+    // Default "The Sign" by Ace of Base
     if (!song){
         song = "The Sign Ace of Base"
     }
 
-    var spotify = new Spotify(keys.spotify);
+    var spotify = new Spotify(keys.spotify); // accessing our spotify key information
 
     spotify.search({type: "track", query: song, limit: 1}, function (err, data){
         if (err) {
@@ -61,10 +58,10 @@ var spotifyThisSong = function(song){
 
         // Need to return Artist(s), Song Name, Album, Preview link of song from Spotify
         var songInfo = data.tracks.items[0]
-        outputData(songInfo.artists[0].name)
-        outputData(songInfo.name)
-        outputData(songInfo.album.name)
-        outputData(songInfo.preview_url)
+        console.log(songInfo.artists[0].name)
+        console.log(songInfo.name)
+        console.log(songInfo.album.name)
+        console.log(songInfo.preview_url)
     })
 }
 
@@ -75,25 +72,25 @@ var movieThis = function(movie){
         movie = "Mr.+Nobody"
     }
 
-    var queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
+    var queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy"; //key is trilogy as asked in instructions
     //console.log(queryUrl);
 
-    // Then create a request to the queryUrl
-    axios(queryUrl, function(err, response, body){
-        // If the request is successful
+    // request for response not working
+    axios.get(queryUrl, function(err, response, body){
+        // Might delete the if and just have a .then
         if (!err && response.statusCode === 200) {
             // Need to return: Title, Year, IMDB Rating, Rotten Tomatoes Rating, Country, 
             // Language, Plot, Actors
-            var movieInfo = JSON.parse(body)
+            var movieInfo = JSON.parse(response)
 
-            outputData("Title: " + movieInfo.Title)
-            outputData("Release year: " + movieInfo.Year)
-            outputData("IMDB Rating: " + movieInfo.imdbRating)
-            outputData("Rotten Tomatoes Rating: " + movieInfo.Ratings[1].Value)
-            outputData("Country: " + movieInfo.Country)
-            outputData("Language: " + movieInfo.Language)
-            outputData("Plot: " + movieInfo.Plot)
-            outputData("Actors: " + movieInfo.Actors)
+            console.log("Title: " + movieInfo.Title)
+            console.log("Release year: " + movieInfo.Year)
+            console.log("IMDB Rating: " + movieInfo.imdbRating)
+            console.log("Rotten Tomatoes Rating: " + movieInfo.Ratings[1].Value)
+            console.log("Country: " + movieInfo.Country)
+            console.log("Language: " + movieInfo.Language)
+            console.log("Plot: " + movieInfo.Plot)
+            console.log("Actors: " + movieInfo.Actors)
         }
     })
 }
@@ -115,7 +112,7 @@ var doWhatItSays = function(){
     });
 }
 
-// This function will handle outputting to the console and writing to log file
+// below writes to log file 
 var outputData = function(data) {
     console.log(data)
 
@@ -125,11 +122,11 @@ var outputData = function(data) {
         } 
     })
 }
-
+//switch below
 var runAction = function(func, parm) {
     switch (func) {
         case "concert-this":
-            concertThis(parm)
+            concert(parm)
             break
         case "spotify-this-song":
             spotifyThisSong(parm)
