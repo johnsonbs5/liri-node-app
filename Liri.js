@@ -75,12 +75,11 @@ var movieThis = function(movie){
     var queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy"; //key is trilogy as asked in instructions
     //console.log(queryUrl);
 
-    // request for response not working
+    // request for response not working/ Was not able to get the below to work.
     axios.get(queryUrl, function(err, response, body){
         // Might delete the if and just have a .then
         if (!err && response.statusCode === 200) {
             // Need to return: Title, Year, IMDB Rating, Rotten Tomatoes Rating, Country, 
-            // Language, Plot, Actors
             var movieInfo = JSON.parse(response)
 
             console.log("Title: " + movieInfo.Title)
